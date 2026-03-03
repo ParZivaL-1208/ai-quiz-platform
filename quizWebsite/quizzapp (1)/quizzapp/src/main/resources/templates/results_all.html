@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>All Results</title></head>
+<body>
+<h2>All Quiz Results</h2>
+<table border="1" cellpadding="6">
+    <thead><tr><th>Quiz</th><th>Student</th><th>Score</th><th>Date</th></tr></thead>
+    <tbody>
+    <tr th:each="a : ${attempts}">
+        <td th:text="${a.quiz.title}"></td>
+        <td th:text="${a.student.username}"></td>
+        <td th:text="${a.score}"></td>
+        <td th:text="${a.startedAt}"></td>
+    </tr>
+    </tbody>
+</table>
+<p><a href="/teacher">Back</a></p>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Retake Requests — Quiz App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>body{background:#f8fafc}.page{max-width:1100px;margin:24px auto}</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Quiz App</a>
+        <div class="ms-auto d-flex gap-2">
+            <a class="btn btn-light btn-sm" href="/teacher/inbox">Inbox</a>
+            <a class="btn btn-light btn-sm" href="/teacher/results">All Results</a>
+            <a class="btn btn-light btn-sm" href="/teacher">Back to Dashboard</a>
+            <a class="btn btn-outline-light btn-sm" href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<main class="page">
+    <h1 class="h3 fw-bold mb-4">Pending Retake Requests</h1>
+
+    <div class="alert alert-info" th:if="${requests == null or #lists.isEmpty(requests)}">
+        No pending retake requests.
+    </div>
+
+    <div class="card shadow-sm" th:if="${requests != null and !#lists.isEmpty(requests)}">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm align-middle">
+                    <thead>
+                    <tr><th>Student</th><th>Quiz</th><th>Request ID</th><th class="text-end">Actions</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="r : ${requests}">
+                        <td th:text="${(r != null && r.student != null) ? r.student.username : '—'}">student1</td>
+                        <td th:text="${(r != null && r.quiz != null) ? r.quiz.title : '—'}">Quiz</td>
+                        <td th:text="${(r != null) ? r.id : ''}">—</td>
+                        <td class="text-end">
+                            <form th:action="@{|/teacher/retakes/${r.id}/approve|}" method="post" class="d-inline">
+                                <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button class="btn btn-success btn-sm">Approve</button>
+                            </form>
+                            <form th:action="@{|/teacher/retakes/${r.id}/decline|}" method="post" class="d-inline ms-1">
+                                <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button class="btn btn-outline-danger btn-sm">Decline</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
