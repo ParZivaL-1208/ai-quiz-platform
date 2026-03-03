@@ -2,7 +2,15 @@
 
 An intelligent, full-stack educational platform built with Spring Boot and Python. This application features a robust role-based access control system (Admin, Teacher, Student) and integrates a dedicated AI microservice to automatically classify quiz questions and generate personalized, data-driven student feedback.
 
-
+> **⚠️ CRITICAL ARCHITECTURE NOTE**
+> 
+> This is the primary interface of a decoupled, two-part system. 
+> 
+> **The full application requires both repositories running simultaneously:**
+> 1. **This Spring Boot Application:** Handles the UI, database operations, security, and user analytics (Runs on port 8080).
+> 2. **The Python AI Microservice:** Handles machine learning, PDF parsing, and NLP text classification (Runs on port 5000). You must clone and run the AI microservice from this repository: https://github.com/ParZivaL-1208/ai-flask-quiz.git
+>
+> If the Python microservice is offline, PDF uploads and automated question classification features will throw `Connection refused` errors.
 
 ## 🏗 Architecture Overview
 
